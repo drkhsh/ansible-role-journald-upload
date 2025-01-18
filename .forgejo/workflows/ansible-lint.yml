@@ -1,4 +1,5 @@
 name: ansible-lint
+on: [push, pull_request]
 jobs:
   build:
     name: Ansible Lint
