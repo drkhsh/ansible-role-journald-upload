@@ -10,9 +10,21 @@ include, but are not limited to:
 - systemd-journald-remote
 - VictoriaLogs
 
-## Options
+The role is published to [Ansible Galaxy](https://galaxy.ansible.com/ui/namespaces/drkhsh)
 
-tba
+## Parameters
+
+See full list at [defaults.yml](./defaults/main.yml)
+
+| Parameter                                 | Description                        | Default                                          |
+|-------------------------------------------|------------------------------------|--------------------------------------------------|
+| journald_upload_server                    | Server to send the logs to         | `loghost.example.com`                            |
+| journald_upload_server_ssl                | Use SSL to send the logs           | `false`                                          |
+| journald_upload_server_ssl_ca_certificate | CA certificate of the server       | `{{ journald_ssl_ca_certificates }}`             |
+| journald_upload_client_retention          | Retention time of journald         | `0`                                              |
+| journald_upload_client_ssl_cert           | Client certificate                 | `-`                                              |
+| journald_upload_client_ssl_key            | Client key                         | `-`                                              |
+| journald_upload_client_storage            | Journal storage                    | `auto`                                           |
 
 ## Example playbook
 
@@ -26,11 +38,10 @@ retention of *1 hour* and the log destination is a *VictoriaLogs* server.
   tags:
     - journald
   vars:
+    journald_server: 'loghost.example.org:9428/insert/journald'
+    journald_server_ssl: true
     journald_client_storage: 'volatile'
     journald_client_retention: '1h'
-    journald_server: 'syslog.example.org:9428/insert/journald'
-    journald_server_ssl: true
-    journald_client_ssl: true
   roles:
     - drkhsh.journald_upload
 ```
