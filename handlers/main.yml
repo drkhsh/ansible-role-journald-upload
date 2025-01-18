@@ -10,8 +10,15 @@
     name: 'systemd-journald'
     state: 'restarted'
 
+- name: 'Load SELinux modules'
+  ansible.builtin.command: "/usr/sbin/semodule -i /etc/selinux/modules/{{ module }}.pp"
+  loop: "{{ journald_upload_selinux_module_load }}"
+  loop_control:
+    loop_var: 'module'
+  changed_when: true
+
 - name: "Enforce log retention with journalctl"
   ansible.builtin.shell: |
-    journalctl --vacuum-time={{ journald_client_retention }}
+    journalctl --vacuum-time={{ journald_upload_client_retention }}
   register: _journalctl_vacuum_result
   changed_when: "'Vacuuming done' in _journalctl_vacuum_result.stdout"

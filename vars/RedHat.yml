@@ -1,2 +1,2 @@
 ---
-journald_ssl_ca_certificates: '/etc/pki/tls/certs/ca-bundle.crt'
+journald_upload_ssl_ca_certificates: '/etc/pki/tls/certs/ca-bundle.crt'

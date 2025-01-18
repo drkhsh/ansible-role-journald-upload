@@ -1,11 +1,9 @@
 # {{ ansible_managed }}
 #
 [Upload]
-URL = {% if journald_server_ssl %}https://{% else %}http://{% endif %}{{ journald_server }}
-{% if journald_server_ssl %}
-TrustedCertificateFile = {{ journald_server_ssl_ca_certificate }}
+URL = {% if journald_upload_server_ssl %}https://{% else %}http://{% endif %}{{ journald_upload_server }}
+{% if journald_upload_server_ssl %}
+TrustedCertificateFile = {{ journald_upload_server_ssl_ca_certificate }}
 {% endif %}
-{% if journald_client_ssl %}
-ServerCertificateFile = {{ journald_client_ssl_cert }}
-ServerKeyFile = {{ journald_client_ssl_key }}
-{% endif %}
+ServerCertificateFile = {{ journald_upload_client_ssl_cert }}
+ServerKeyFile = {{ journald_upload_client_ssl_key }}

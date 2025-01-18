@@ -1,2 +1,2 @@
 ---
-journald_ssl_ca_certificates: '/etc/ssl/certs/ca-certificates.crt'
+journald_upload_ssl_ca_certificates: '/etc/ssl/certs/ca-certificates.crt'

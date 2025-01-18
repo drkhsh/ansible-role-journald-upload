@@ -19,10 +19,22 @@ galaxy_info:
       versions:
         - jammy
         - noble
-    - name: Alpine
-      version:
-        - all
     - name: ArchLinux
+      versions:
+        - any
+    - name: opensuse
+      versions:
+        - all
+    - name: Gentoo
+      versions:
+        - any
+    - name: CentOS
+      versions:
+        - all
+    - name: RHEL
+      versions:
+        - all
+    - name: Rocky
       versions:
         - all
   galaxy_tags:

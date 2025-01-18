@@ -1,10 +1,8 @@
 ---
-journald_server: 'loghost.example.com'
-journald_server_ssl: false
-journald_server_ssl_ca_certificate: "{{ journald_ssl_ca_certificates }}"
-journald_client_retention: 0
-journald_client_ssl: false
-journald_client_ssl_cert: '-'
-journald_client_ssl_key: '-'
-journald_client_ssl_group: ''
-journald_client_storage: 'auto'
+journald_upload_server: 'loghost.example.com'
+journald_upload_server_ssl: false
+journald_upload_server_ssl_ca_certificate: "{{ journald_upload_ssl_ca_certificates }}"
+journald_upload_client_retention: 0
+journald_upload_client_ssl_cert: '-'
+journald_upload_client_ssl_key: '-'
+journald_upload_client_storage: 'auto'
