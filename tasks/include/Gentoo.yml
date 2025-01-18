@@ -1,0 +1,2 @@
+---
+# Gentoo just needs `curl` use flag on systemd for systemd-journal-upload

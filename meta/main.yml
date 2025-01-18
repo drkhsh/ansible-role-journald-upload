@@ -1,0 +1,35 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: journald_upload
+  author: drkhsh
+  description: Remote systemd-journal-upload logging.
+  company: "ESCPE"
+  license: "license (BSD, MIT)"
+  min_ansible_version: "7.7.0"
+  platforms:
+    - name: Fedora
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+    - name: Alpine
+      version:
+        - all
+    - name: ArchLinux
+      versions:
+        - all
+  galaxy_tags:
+    - system
+    - logging
+    - systemd
+    - journald
+    - remote
+    - upload
+    - victorialogs

@@ -1,0 +1,89 @@
+---
+- name: 'Ensure systemd-journald directories'
+  ansible.builtin.file:
+    path: '/var/log/journal'
+    state: 'directory'
+    mode: '2755'
+    owner: 'root'
+    group: 'systemd-journal'
+    recurse: true
+
+- name: 'Include distro-specific variables'
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+    - '{{ ansible_pkg_mgr }}.yml'
+    - '{{ ansible_distribution }}.yml'
+    - '{{ ansible_os_family }}.yml'
+    - '{{ ansible_os_family | replace("/", "_") | replace(" ", "_") }}.yml'
+
+
+- name: "Include distro-specific tasks"
+  ansible.builtin.include_tasks: "{{ item }}"
+  with_first_found:
+    - 'include/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+    - 'include/{{ ansible_pkg_mgr }}.yml'
+    - 'include/{{ ansible_distribution }}.yml'
+    - 'include/{{ ansible_os_family }}.yml'
+    - 'include/{{ ansible_os_family | replace("/", "_") | replace(" ", "_") }}.yml'
+
+- name: 'Ensure journald.conf.d directory exists'
+  ansible.builtin.file:
+    path: '/etc/systemd/journald.conf.d'
+    state: 'directory'
+    mode: '755'
+    owner: 'root'
+    group: 'root'
+
+- name: 'Ensure systemd-journald config'
+  ansible.builtin.template:
+    src: 'journald.conf.j2'
+    dest: '/etc/systemd/journald.conf.d/ansible.conf'
+    mode: '0664'
+  notify:
+    - 'Restart systemd-journald'
+    - 'Enforce log retention with journalctl'
+
+- name: 'Flush handlers'
+  ansible.builtin.meta: 'flush_handlers'
+
+- name: Create systemd-journal-upload.service drop-in to fix restarts
+  block:
+
+    - name: Create systemd-journal-upload.service.d directory
+      ansible.builtin.file:
+        path: /etc/systemd/system/systemd-journal-upload.service.d/
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    # Debian atm does not include systemd >254 for RestartSteps and
+    # RestartMaxDelaySec. Ensure restarts anyways (other distros may have saner
+    # default behaviour).
+    - name: Copy systemd-journal-upload.service drop-in
+      ansible.builtin.copy:
+        content: |-
+          [Service]
+          Restart=on-failure
+          RestartSec=1min
+        dest: /etc/systemd/system/systemd-journal-upload.service.d/override.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: daemon-reload and restart
+
+- name: 'Ensure systemd-journal-upload config'
+  ansible.builtin.template:
+    src: 'journal-upload.conf.j2'
+    dest: '/etc/systemd/journal-upload.conf'
+    mode: '0664'
+  notify:
+    - 'Restart systemd-journal-upload'
+
+- name: 'Ensure systemd-journal-upload service is enabled'
+  ansible.builtin.systemd_service:
+    name: systemd-journal-upload
+    enabled: true
+  notify:
+    - 'Restart systemd-journal-upload'

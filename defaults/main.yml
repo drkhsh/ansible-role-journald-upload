@@ -1,0 +1,10 @@
+---
+journald_server: 'loghost.example.com'
+journald_server_ssl: false
+journald_server_ssl_ca_certificate: "{{ journald_ssl_ca_certificates }}"
+journald_client_retention: 0
+journald_client_ssl: false
+journald_client_ssl_cert: '-'
+journald_client_ssl_key: '-'
+journald_client_ssl_group: ''
+journald_client_storage: 'auto'

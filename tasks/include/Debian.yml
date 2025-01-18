@@ -1,0 +1,6 @@
+---
+- name: 'include | Debian | Ensure systemd-journal-remote package is installed'
+  ansible.builtin.package:
+    name:
+      - "systemd-journal-remote"
+    state: 'present'

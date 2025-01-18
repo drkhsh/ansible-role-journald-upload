@@ -1,0 +1,8 @@
+---
+exclude_paths:
+  - .cache
+  - .github
+  - .forgejo
+
+enable_list:
+  - name[prefix]

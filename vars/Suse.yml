@@ -1,0 +1,2 @@
+---
+journald_ssl_ca_certificates: '/etc/ssl/ca-bundle.pem'

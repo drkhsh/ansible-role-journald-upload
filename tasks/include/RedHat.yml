@@ -1,0 +1,35 @@
+---
+- name: 'include | RedHat | Ensure systemd-journal-remote package is installed'
+  ansible.builtin.package:
+    name:
+      - "systemd-journal-gateway"
+    state: 'present'
+
+- name: 'include | RedHat | Ensure SELinux configuration'
+  when:
+    - ansible_facts['os_family'] == 'RedHat'
+    - ansible_facts['distribution_major_version'] | int >= 8
+  block:
+    - name: 'include | RedHat | Create SELinux module directory'
+      ansible.builtin.file:
+        path: '/etc/selinux/modules'
+        state: 'directory'
+        owner: 'root'
+        group: 'root'
+        mode: '0775'
+
+    - name: 'include | RedHat | Copy SELinux module files'
+      ansible.builtin.copy:
+        dest: "/etc/selinux/modules/{{ file }}"
+        src: "selinux_configs/{{ file }}"
+        mode: '0600'
+      register: 'journald_connect_selinux'
+      loop:
+        - 'journald_connect.pp'
+        - 'journald_connect.te'
+      loop_control:
+        loop_var: 'file'
+
+    - name: 'include | RedHat | Load SELinux modules'
+      ansible.builtin.set_fact:
+        journald_selinux_module_load: "{{ journald_selinux_module_load | default([]) + ['journald_connect'] }}"

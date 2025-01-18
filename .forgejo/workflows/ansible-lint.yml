@@ -1,0 +1,9 @@
+name: ansible-lint
+jobs:
+  build:
+    name: Ansible Lint
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ansible-lint
+        uses: https://github.com/ansible/ansible-lint@v24.12.2
