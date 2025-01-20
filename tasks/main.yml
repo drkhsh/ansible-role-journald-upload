@@ -71,7 +71,7 @@
         owner: root
         group: root
         mode: "0644"
-      notify: daemon-reload and restart
+      notify: "Restart systemd-journal-upload"
 
 - name: 'Ensure systemd-journal-upload config'
   ansible.builtin.template:
