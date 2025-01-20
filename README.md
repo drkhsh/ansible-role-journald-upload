@@ -10,7 +10,7 @@ include, but are not limited to:
 - systemd-journald-remote
 - VictoriaLogs
 
-The role is published to [Ansible Galaxy](https://galaxy.ansible.com/ui/namespaces/drkhsh)
+The role is published to [Ansible Galaxy](https://galaxy.ansible.com/ui/standalone/roles/drkhsh/journald_upload/)
 
 ## Parameters
 
